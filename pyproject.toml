@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Database-of-medicinal-substances"
+version = "1.0.0"
+authors = [
+  {name = "Krzysztof Barczak", email = "krz.barczak@gmail.com"},
+]
+maintainers = [
+  {name = "Krzysztof Barczak", email = "krz.barczak@gmail.com"}
+]
+description = "A final project for Databases module at university"
+readme = "README.md"
+requires-python = ">=3.13.2"
+keywords = ["database", "medicinal substances"]
+classifiers = [
+    "Private :: Do Not Upload", # prevents uploading to pypi
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: MIT License",
+]
+dependencies = [
+    "requests",
+    'importlib-metadata; python_version<"3.10"',
+]
+# dynamic = ["version"] # if used comment out the version above
+# file to version need to be specified in a separate table
+# named [tool.setuptools.dynamic]
+# version = {attr = "my_package.__version__"}
+
+[project.optional-dependencies]
+pdf = ["ReportLab>=1.2", "RXP"]
+rest = ["docutils>=0.3", "pack ==1.1, ==1.3"]
+
+[project.scripts]
+#my-script = "my_package.module:function"
+
+[projects.urls]
+Homepage = "https://github.com/pypa/sampleproject"
+
