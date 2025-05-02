@@ -5,6 +5,7 @@
 Skrypt instalacyjny tutułowej bazy. Jest to projekt końcowy z przedmiotu *Bazy danych*. Ściślej, jego tłumaczenie do *Pythona*, bo oryginał został napisany z myślą o TSQL.
 
 ## Spis spraw
+
 1. [Instalacja bazy](#instalacja-bazy)
 2. [Model E/R](#model-er)
 3. [Model relacyjny](#model-relacyjny)
@@ -12,6 +13,7 @@ Skrypt instalacyjny tutułowej bazy. Jest to projekt końcowy z przedmiotu *Bazy
 5. [Literatura](#literatura)
 
 ## Instalacja bazy
+
 W celu powołania bazy do życia należy:
 1. zainstalować ten pakiet;
 2. zaimportować moduł `substances.database` w środowisku lub w powłoce Pythona;
@@ -51,14 +53,16 @@ Na rysunku 1 są przedstawione dwa zbiory encji **Leki** oraz **Producenci** po�
 ## Model relacyjny
 
 Związek **produkuje** z modelu E/R jest *wiele-do-jeden* z **Leków** do **Producentów**, więc oba zbiory encji zostaną połączone w jedną relację, nazwijmy ją $R$, o schemacie:
-$$
+
+$
     R(\mathrm{bloz,\ nazwaHandlowa,\ substancjaAktywna,\ postać,\ dawka,\ OTC,} \\[1ex] \mathrm{zastosowanie,\ producent,\ siedziba,\ prezes,\ rokZałożenia}).
-$$
+$
 
 Wprowadźmy następujące oznaczenia:
-$$
+
+$
     A \mapsto \mathrm{bloz}, \quad B \mapsto \mathrm{nazwaHandlowa}, \quad C \mapsto \mathrm{substancjaAktywna}, \\[2ex] D \mapsto \mathrm{postać}, \quad E \mapsto \mathrm{dawka}, \quad F \mapsto \mathrm{OTC}, \quad G \mapsto \mathrm{zastosowanie}, \\[2ex] H \mapsto \mathrm{producent}, \quad X \mapsto \mathrm{siedziba}, \quad Y \mapsto \mathrm{prezes}, \quad Z \mapsto \mathrm{rokZałożenia}.
-$$
+$
 
 Zachodzą następujące zależności funkcyjne:
 
