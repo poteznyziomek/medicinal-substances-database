@@ -61,40 +61,30 @@ $$
 $$
 
 Zachodzą następujące zależności funkcyjne:
-$$
-    A \to BC\dots H, \quad B \to AC\dots H, \quad CDE \to ABFGH, \quad HX \to YZ.
-$$
 
-Zauważmy, że w relacji $R$ nie istnieją klucze jednoelementowe, ale
-$$
-    \{A, X\}^+ = \{A, B, C, D, E, F, G, H, X, Y, Z\},
-$$
-czyli zbiór $\{A, X\}$ tworzy klucz. Ponadto
-$$
+$
+    A \to BC\dots HX\dots Z, \quad B \to ACD\dots HX\dots Z, \quad CDE \to ABFGHXYZ, \quad HX \to YZ.
+$
+
+W relacji $R$ możemy wyróżnić trzy klucze:
+
+$
+    \{A\}, \quad \{B\}, \quad \{C, D, E\}.
+$
+
+Zauważmy, że:
+
+$
     \{H, X\}^+ = \{H, X, Y, Z\},
-$$
-co oznacza, że $\{H, X\}$ nie jest nadkluczem i w konsekwencji zależność funkcyjna $HX \to YZ$ narusza warunek BCNF. Relację $R$ rozbijamy na dwie relacje $R'$ oraz $R''$ o schematach:
-$$
-    R'(A, B, C, D, E, F, G, H, X), \\[2ex]
-    R''(H, X, Y, Z).
-$$
-Relacja $R''$ jest w BCNF, a jej kluczem jest $\{H, X\}$.
-Dla relacji $R'$ zbiór $\{A\}$ nie tworzy nadklucza, czyli zależność $A \to BC\dots H$ narusza warunek BCNF. W konsekwencji rozbijamy $R'$ na dwie relacje o schematach:
-$$
-    R'''(A, \dots, H), \quad R^{IV}(A, X).
-$$
-Relacja $R^{IV}$ jest dwuargumentowa i w konsekwencji w BCNF. Nie dziedziczy ona żadnych zależności funkcyjnych, więc kluczem jest $\{A, X\}$.
+$
 
-Zależności funkcyjne, które zachodzą w $R'''$ to: $A \to BC\dots H$, $B \to AC\dots H$, $CDE \to ABFGH$. Widać, że kluczami są: $\{A\}$, $\{B\}$, $\{C, D, E\}$ i $R'''$ jest w BCNF.
+co oznacza, że zależność funkcyjna $HX \to YZ$ narusza warunek BCNF. Relację $R$ rozbijamy na dwie relacje $R'$ oraz $R''$ o schematach:
 
+$
+    R'(A, B, C, D, E, F, G, H, X), \quad R''(H, X, Y, Z).
+$
 
-|  Relacja |                        Atrybuty                       |                        Zależności funkcyjne                       |                 Klucz(e)                 | Czy w BCNF? |
-| -------- | ----------------------------------------------------- | ----------------------------------------------------------------- | ---------------------------------------- | ----------- |
-|    $R$   | $A,$ $B,$ $C,$ $D,$ $E,$ $F,$ $G,$ $H,$ $X,$ $Y,$ $Z$ | $A \to B\dots H,$ $B \to AC\dots H,$ $CDE \to ABFGH,$ $HX \to YZ$ | $\{A, X\},$ $\{B, X\},$ $\{C, D, E, X\}$ |     Nie     |
-|   $R'$   |      $A,$ $B,$ $C,$ $D,$ $E,$ $F,$ $G,$ $H,$ $X$      |                                                                   |                                          |     Nie     |
-|   $R''$  |                   $H,$ $X,$ $Y,$ $Z$                  |                            $HX \to YZ$                            |                $\{H, X\}$                |     Tak     |
-|  $R'''$  |         $A,$ $B,$ $C,$ $D,$ $E,$ $F,$ $G,$ $H$        |        $A \to B\dots H,$ $B \to AC\dots H,$ $CDE \to ABFGH$       |      $\{A\},$ $\{B\},$ $\{C, D, E\}$     |     Tak     |
-| $R^{IV}$ |                        $A,$ $X$                       |                                Brak                               |                $\{A, X\}$                |     Tak     |
+Obie relację są teraz w BCNF.
 
 ## Co dalej?
 
