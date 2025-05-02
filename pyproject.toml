@@ -38,5 +38,5 @@ rest = ["docutils>=0.3", "pack ==1.1, ==1.3"]
 #my-script = "my_package.module:function"
 
 [projects.urls]
-Homepage = "https://github.com/pypa/sampleproject"
+Homepage = "https://github.com/poteznyziomek/medicinal-substances-database"
 
