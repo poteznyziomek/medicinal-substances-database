@@ -41,8 +41,6 @@ class ExistenceAndBadValues(unittest.TestCase):
 		"""
 		self.assertRaises(sqlite3.OperationalError, self.con.execute, query)
 	
-	
-	
 	def test_Leki_primary_key_null(self):
 		"""Primary key bloz cannot be NULL."""
 		query1 = """
@@ -91,45 +89,12 @@ class ExistenceAndBadValues(unittest.TestCase):
 		self.assertRaises(sqlite3.IntegrityError,
 						 self.cur.execute, query5)
 	
-	def test_BlozSiedziba_primary_key_null(self):
-		"""Primary key {bloz, siedziba} cannot by NULL."""
-		query1 = """
-			INSERT INTO BlozSiedziba
-			VALUES (NULL, NULL);
-		"""
-		query2 = """
-			INSERT INTO BlozSiedziba(bloz)
-			VALUES (0000000);
-		"""
-		query3 = """
-			INSERT INTO BlozSiedziba(siedziba)
-			VALUES ('Greed Island');
-		"""
-		query4 = """
-			INSERT INTO BlozSiedziba
-			VALUES (NULL, 'Whale Island');
-		"""
-		query5 = """
-			INSERT INTO BlozSiedziba
-			VALUES (1111111, NULL);
-		"""
-		self.assertRaises(sqlite3.IntegrityError,
-						 self.cur.execute, query1)
-		self.assertRaises(sqlite3.IntegrityError,
-						 self.cur.execute, query2)
-		self.assertRaises(sqlite3.IntegrityError,
-						 self.cur.execute, query3)
-		self.assertRaises(sqlite3.IntegrityError,
-						 self.cur.execute, query4)
-		self.assertRaises(sqlite3.IntegrityError,
-						 self.cur.execute, query5)
-
 	def test_Leki_primary_key_not_unique_values(self):
 		"""Inserting tuples with equal key value should raise IntegrityError."""
 		query = """
 			INSERT INTO Leki
-			VALUES (1234567, 'Gon', 'Zetsu', 'Concealment', 0.1, 'Nie', 'Various', 'Hunters'),
-			(1234567, 'Zushi', 'Ren', 'Enhancement', 0.33, 'Tak', 'Multiple', 'Spiders');
+			VALUES (1234567, 'Gon', 'Zetsu', 'Concealment', 0.1, 'Nie', 'Various', 'Hunters', 'Whale Island'),
+			(1234567, 'Zushi', 'Ren', 'Enhancement', 0.33, 'Tak', 'Multiple', 'Spiders', 'Heavens Arena');
 		"""
 		self.assertRaises(sqlite3.IntegrityError, self.cur.execute, query)
 	
@@ -139,15 +104,6 @@ class ExistenceAndBadValues(unittest.TestCase):
 			INSERT INTO Producenci
 			VALUES ('Uvogin', 'undisclosed', 'Chrollo', 2024),
 			('Uvogin', 'undisclosed', 'Hisoka', 2011);
-		"""
-		self.assertRaises(sqlite3.IntegrityError, self.cur.execute, query)
-	
-	def test_BlozSiedziba_primary_key_not_unique_values(self):
-		"""Inserting tuples with equal key value should raise IntegrityError."""
-		query = """
-			INSERT INTO BlozSiedziba
-			VALUES (7654321, 'Dark Continent'),
-			(7654321, 'Dark Continent');
 		"""
 		self.assertRaises(sqlite3.IntegrityError, self.cur.execute, query)
 	
@@ -166,23 +122,18 @@ class ExistenceAndBadValues(unittest.TestCase):
 		self.assertRaises(sqlite3.IntegrityError,
 						 self.cur.execute, query2)
 	
+	def test_FOREIGN_KEY_producent_siedziba_integrity(self):
+		"""Raise IntegrityError? when inserting into Leki without corresponding tuple in Producenci"""
+		query = """
+			INSERT INTO Leki(bloz, siedziba, producent)
+			VALUES (1324657, 'York New City', 'Mafia');
+		"""
+		self.con.execute("PRAGMA foreign_keys=1")
+		self.assertRaises(sqlite3.IntegrityError, self.cur.execute, query)
+	
 	def test_Leki_CHECK_bloz_seven_digits(self):
 		"""bloz should be seven digits long."""
 		query_template = "INSERT INTO Leki(bloz) VALUES ({});"
-		incorrect_bloz_values = [
-			1, 2, 3, 4, 5, 13, 23, 37, 547, 701,1087,
-			1427, 2222, 10867, 100057, 111111, 593933,
-			10000000, 12345678, 123456789, 482071529
-		]
-		for number in incorrect_bloz_values:
-			self.assertRaises(
-				sqlite3.IntegrityError,
-				self.cur.execute,
-				query_template.format(number))
-	
-	def test_BlozSiedziba_CHECK_bloz_seven_digits(self):
-		"""bloz should be seven digits long."""
-		query_template = "INSERT INTO BlozSiedziba VALUES ({}, 'York New City')"
 		incorrect_bloz_values = [
 			1, 2, 3, 4, 5, 13, 23, 37, 547, 701,1087,
 			1427, 2222, 10867, 100057, 111111, 593933,
@@ -225,7 +176,6 @@ class DataBasePopulation(unittest.TestCase):
 		db.create_db()
 		db.populate_Leki()
 		db.populate_Producenci()
-		db.populate_BlozSiedziba()
 		if os.path.exists("substances.db"):
 			self.con = sqlite3.connect("substances.db")
 			self.cur = self.con.cursor()
@@ -262,7 +212,8 @@ class DataBasePopulation(unittest.TestCase):
 			6488741, 'Ibufen Junior', 'ibuprofen',
 			'kapsułki miękkie', 200, 'Tak',
 			'Jest to preparat o działaniu ogólnym zawierający niesteroidowy lek przeciwzapalny.',
-			'Zakłady Farmaceutyczne POLPHARMA S.A.'
+			'Zakłady Farmaceutyczne POLPHARMA S.A.',
+			'ul. Pelplińska 19, 83-200, Starogard Gdański'
 		)
 		self.assertTupleEqual(a_tuple, res.fetchone())
 	
@@ -281,20 +232,7 @@ class DataBasePopulation(unittest.TestCase):
 			'Sebastian Szymanek', 1935
 		)
 		self.assertTupleEqual(a_tuple, res.fetchone())
-	
-	def test_existance_of_table_BlozSiedziba(self):
-		"""Table BlozSiedziba exists with at least one tuple."""
-		query = """
-			SELECT *
-			FROM BlozSiedziba
-			WHERE bloz = '6488741';
-		"""
-		res = self.cur.execute(query)
-		a_tuple = (6488741,
-			 'ul. Pelplińska 19, 83-200, Starogard Gdański')
-		self.assertTupleEqual(a_tuple, res.fetchone())
 
 
-			
 if __name__ == "__main__":
-	unittest.main(verbosity=0)
+	unittest.main()

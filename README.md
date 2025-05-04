@@ -21,6 +21,17 @@ W celu powołania bazy do życia należy:
 
 Następnie, w bieżącym katalogu pojawi się plik `substances.db`. Zapytania do bazy można wykonać z użyciem pakietu [sqlite3](https://docs.python.org/3/library/sqlite3.html) (swoją drogą ninejszy pakiet opiera się na tym linkowanym).
 
+> ### Uwaga.
+> SQLite nie wymusza zachowania więzów klucza obcego. Można to zmienić po nawiązaniu połączenia z bazą danych, np. w następujący sposób:
+> 
+> 1. import sqlite3 as sql
+> 2. import substances.database as db
+> 3. db.initialize()
+> 4. con = sql.connect("substances.db")
+> 5. con.execute("PRAGMA foreign_keys=1")
+> 
+> Zobacz [https://sqlite.org/pragma.html#pragma_foreign_keys](#https://sqlite.org/pragma.html#pragma_foreign_keys).
+
 ## Model E/R
 
 Analiza została przeprowadzona z użyciem [[1]](#widom).
