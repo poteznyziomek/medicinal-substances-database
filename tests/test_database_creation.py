@@ -123,13 +123,14 @@ class ExistenceAndBadValues(unittest.TestCase):
 						 self.cur.execute, query2)
 	
 	def test_FOREIGN_KEY_producent_siedziba_integrity(self):
-		"""Raise IntegrityError? when inserting into Leki without corresponding tuple in Producenci"""
+		"""Raise IntegrityError when inserting into Leki without corresponding tuple in Producenci."""
 		query = """
 			INSERT INTO Leki(bloz, siedziba, producent)
-			VALUES (1324657, 'York New City', 'Mafia');
+			VALUES (1324657, 'York New City', 'The Mob');
 		"""
 		self.con.execute("PRAGMA foreign_keys=1")
-		self.assertRaises(sqlite3.IntegrityError, self.cur.execute, query)
+		self.cur.execute(query)
+		self.assertRaises(sqlite3.IntegrityError, self.con.commit)
 	
 	def test_Leki_CHECK_bloz_seven_digits(self):
 		"""bloz should be seven digits long."""

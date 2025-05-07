@@ -19,8 +19,9 @@ def create_db():
 			producent VARCHAR(255),
 			siedziba VARCHAR(255),
 			UNIQUE (substancjaAktywna, postac, dawka),
-			FOREIGN KEY (producent, siedziba) REFERENCES
-			Producenci(producent, siedziba)
+			FOREIGN KEY (producent, siedziba)
+				REFERENCES Producenci(producent, siedziba)
+				DEFERRABLE INITIALLY DEFERRED
 		);
 	"""
 	create_schema_Producenci = """
