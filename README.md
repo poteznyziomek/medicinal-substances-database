@@ -65,39 +65,27 @@ Na rysunku 1 są przedstawione dwa zbiory encji **Leki** oraz **Producenci** po�
 
 Związek **produkuje** z modelu E/R jest *wiele-do-jeden* z **Leków** do **Producentów**, więc oba zbiory encji zostaną połączone w jedną relację, nazwijmy ją $R$, o schemacie:
 
-$
-    R(\mathrm{bloz,\ nazwaHandlowa,\ substancjaAktywna,\ postać,\ dawka,\ OTC,} \\[1ex] \mathrm{zastosowanie,\ producent,\ siedziba,\ prezes,\ rokZałożenia}).
-$
+$R(\mathrm{bloz,\ nazwaHandlowa,\ substancjaAktywna,\ postać,\ dawka,\ OTC,} \\[1ex] \mathrm{zastosowanie,\ producent,\ siedziba,\ prezes,\ rokZałożenia}).$
 
 Wprowadźmy następujące oznaczenia:
 
-$
-    A \mapsto \mathrm{bloz}, \quad B \mapsto \mathrm{nazwaHandlowa}, \quad C \mapsto \mathrm{substancjaAktywna}, \\[2ex] D \mapsto \mathrm{postać}, \quad E \mapsto \mathrm{dawka}, \quad F \mapsto \mathrm{OTC}, \quad G \mapsto \mathrm{zastosowanie}, \\[2ex] H \mapsto \mathrm{producent}, \quad X \mapsto \mathrm{siedziba}, \quad Y \mapsto \mathrm{prezes}, \quad Z \mapsto \mathrm{rokZałożenia}.
-$
+$A \mapsto \mathrm{bloz}, \quad B \mapsto \mathrm{nazwaHandlowa}, \quad C \mapsto \mathrm{substancjaAktywna}, \\[2ex] D \mapsto \mathrm{postać}, \quad E \mapsto \mathrm{dawka}, \quad F \mapsto \mathrm{OTC}, \quad G \mapsto \mathrm{zastosowanie}, \\[2ex] H \mapsto \mathrm{producent}, \quad X \mapsto \mathrm{siedziba}, \quad Y \mapsto \mathrm{prezes}, \quad Z \mapsto \mathrm{rokZałożenia}.$
 
 Zachodzą następujące zależności funkcyjne:
 
-$
-    A \to BC\dots HX\dots Z, \quad B \to ACD\dots HX\dots Z, \quad CDE \to ABFGHXYZ, \quad HX \to YZ.
-$
+$A \to BC\dots HX\dots Z, \quad B \to ACD\dots HX\dots Z, \quad CDE \to ABFGHXYZ, \quad HX \to YZ.$
 
 W relacji $R$ możemy wyróżnić trzy klucze:
 
-$
-    \{A\}, \quad \{B\}, \quad \{C, D, E\}.
-$
+$\{A\}, \quad \{B\}, \quad \{C, D, E\}.$
 
 Zauważmy, że:
 
-$
-    \{H, X\}^+ = \{H, X, Y, Z\},
-$
+$\{H, X\}^+ = \{H, X, Y, Z\},$
 
 co oznacza, że zależność funkcyjna $HX \to YZ$ narusza warunek BCNF. Relację $R$ rozbijamy na dwie relacje $R'$ oraz $R''$ o schematach:
 
-$
-    R'(A, B, C, D, E, F, G, H, X), \quad R''(H, X, Y, Z).
-$
+$R'(A, B, C, D, E, F, G, H, X), \quad R''(H, X, Y, Z).$
 
 Obie relację są teraz w BCNF.
 
